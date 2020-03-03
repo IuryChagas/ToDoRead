@@ -1,3 +1,4 @@
+using System;
 using Microsoft.AspNetCore.Mvc;
 using ToDoRead.Data;
 using ToDoRead.Models;
@@ -23,13 +24,22 @@ namespace ToDoRead.Controllers
             return Ok("Iury Chagas " + id);
         }
         [HttpPost]
-        public IActionResult Post([FromBody] BookTemp btemp)
+        public IActionResult Post([FromBody] Book bookAttribute)
         {
-            return Ok(new {info = "Novo livro publicado com sucesso.", book = btemp});
-        }
-        public class BookTemp {
-            public string Title { get; set; }
-            public float Price { get; set; }
+            Book book = new Book();
+            book.Title = bookAttribute.Title;
+            book.Description = bookAttribute.Description;
+            book.Price = bookAttribute.Price;
+            book.PageQuantity = bookAttribute.PageQuantity;
+            book.Image = bookAttribute.Image;
+
+            book.Publisher = bookAttribute.Publisher;
+            book.Language = bookAttribute.Language;
+
+            database.Books.Add(book);
+            database.SaveChanges();
+
+            return Ok(new {msg = "Successfully published book."});
         }
     }
 }
