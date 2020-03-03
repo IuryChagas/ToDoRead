@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using ToDoRead.Data;
 using ToDoRead.Models;
 
 namespace ToDoRead.Controllers
@@ -6,6 +7,11 @@ namespace ToDoRead.Controllers
     [Route("api/[controller]")]
     [ApiController] public class BooksController : ControllerBase
     {
+        private readonly ApplicationDbContext database;
+        public BooksController (ApplicationDbContext database)
+        {
+            this.database = database;
+        }
         [HttpGet]
         public IActionResult GetBooks()
         {
