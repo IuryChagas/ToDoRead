@@ -30,7 +30,9 @@ namespace ToDoRead.Controllers
             }
             catch (Exception n)
             {
-                return BadRequest(new {msg = "invalid Id"});
+                Response.StatusCode = 404;
+                return new ObjectResult("");
+                //return BadRequest(new {msg = "invalid Id"});
             }
 
         }
@@ -38,6 +40,7 @@ namespace ToDoRead.Controllers
         public IActionResult Post([FromBody] Book bookAttribute)
         {
             Book book = new Book();
+
             book.Title = bookAttribute.Title;
             book.Description = bookAttribute.Description;
             book.Price = bookAttribute.Price;
@@ -50,7 +53,9 @@ namespace ToDoRead.Controllers
             database.Books.Add(book);
             database.SaveChanges();
 
-            return Ok(new {msg = "Successfully published book."});
+            Response.StatusCode =  201;
+            return new ObjectResult("");
+            //return Ok(new {msg = "Successfully published book."});
         }
     }
 }
