@@ -23,7 +23,16 @@ namespace ToDoRead.Controllers
         [HttpGet("{id}")]
         public IActionResult Get(int id)
         {
-            return Ok("Iury Chagas " + id);
+            try
+            {
+                Book book = database.Books.First(book => book.Id == id);
+                return Ok(book);
+            }
+            catch (Exception n)
+            {
+                return BadRequest(new {msg = "invalid Id"});
+            }
+
         }
         [HttpPost]
         public IActionResult Post([FromBody] Book bookAttribute)
