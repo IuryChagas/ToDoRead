@@ -2,6 +2,7 @@ using System;
 using Microsoft.AspNetCore.Mvc;
 using ToDoRead.Data;
 using ToDoRead.Models;
+using System.Linq;
 
 namespace ToDoRead.Controllers
 {
@@ -16,7 +17,8 @@ namespace ToDoRead.Controllers
         [HttpGet]
         public IActionResult GetBooks()
         {
-            return Ok(new {name = "Douglas Iury", company = "GFT"});
+            var books = database.Books.ToList();
+            return Ok(books);
         }
         [HttpGet("{id}")]
         public IActionResult Get(int id)
