@@ -28,7 +28,7 @@ namespace ToDoRead.Controllers
                 Book book = database.Books.First(book => book.Id == id);
                 return Ok(book);
             }
-            catch (Exception n)
+            catch (Exception)
             {
                 Response.StatusCode = 404;
                 return new ObjectResult("");
@@ -56,6 +56,24 @@ namespace ToDoRead.Controllers
             Response.StatusCode =  201;
             return new ObjectResult("");
             //return Ok(new {msg = "Successfully published book."});
+        }
+
+        [HttpDelete("{id}")]
+        public IActionResult Delete(int id)
+        {
+            try
+            {
+                Book book = database.Books.First(book => book.Id == id);
+                database.Books.Remove(book);
+                database.SaveChanges();
+
+                return Ok();
+            }
+            catch (Exception)
+            {
+                Response.StatusCode = 404;
+                return new ObjectResult("");
+            }
         }
     }
 }
