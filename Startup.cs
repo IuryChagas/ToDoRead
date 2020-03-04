@@ -30,6 +30,9 @@ namespace ToDoRead
         {
             services.AddDbContext<ApplicationDbContext>(options => options.UseMySql(Configuration.GetConnectionString("DefaultConnection")));
             services.AddControllers();
+            services.AddSwaggerGen(config => {
+                config.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo {Title="TotoRead API", Version = "v1"});
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -49,6 +52,14 @@ namespace ToDoRead
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+            });
+            app.UseSwaggerUI(c =>{
+                string swaggerJsonBasePath = string.IsNullOrWhiteSpace(c.RoutePrefix) ? "." : "..";
+                c.SwaggerEndpoint($"{swaggerJsonBasePath}/swagger/v1/swagger.json", "v1 docs");
+                });
+            app.UseSwagger(); // Gera um arquivo JSON >> swagger.jon
+            app.UseSwaggerUI(config => { // gerar as Views html do swagger
+                config.SwaggerEndpoint("/swagger/v1/swagger.jon", "v1 docs"); // link e nome do arq json gerado
             });
         }
     }
