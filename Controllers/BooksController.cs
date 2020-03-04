@@ -94,5 +94,39 @@ namespace ToDoRead.Controllers
                 return new ObjectResult("");
             }
         }
+        [HttpPatch]
+        public IActionResult Patch([FromBody] Book book)
+        {
+            if (book.Id > 0)
+            {
+                try
+                {
+                    var b = database.Books.First(btemp => btemp.Id == book.Id);
+                    if(b != null){
+                        // Edit
+                        b.Title = book.Title != null ? book.Title : b.Title;
+                        b.Description = book.Description != null ? book.Description : b.Description;
+                        b.Price = book.Price != 0 ? book.Price : b.Price;
+                        b.PageQuantity = book.PageQuantity != 0 ? book.PageQuantity : b.PageQuantity;
+                        b.Image = book.Image != null ? b.Image : book.Image;
+                        b.Publisher = book.Publisher != null ? b.Publisher : book.Publisher;
+
+                        database.SaveChanges();
+                        return Ok();
+
+                    }else{
+                        Response.StatusCode = 400;
+                        return new ObjectResult(new {msg = "book not found!"});
+                    }
+                }catch{
+                    Response.StatusCode = 400;
+                    return new ObjectResult(new {msg = "book not found!"});
+                }
+
+            }else{
+                Response.StatusCode = 400;
+                return new ObjectResult(new {msg = "invalid id!"});
+            }
+        }
     }
 }
