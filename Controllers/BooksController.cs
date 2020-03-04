@@ -39,6 +39,24 @@ namespace ToDoRead.Controllers
         [HttpPost]
         public IActionResult Post([FromBody] Book bookAttribute)
         {
+            // *validation
+            if (bookAttribute.Price <= 0)
+            {
+                Response.StatusCode = 400;
+                return new ObjectResult(new {msg = "Price cannot be less than or equal to 0!"});
+            }
+            if (
+                string.IsNullOrWhiteSpace(bookAttribute.Title)  ||
+                string.IsNullOrWhiteSpace(bookAttribute.Description) ||
+                string.IsNullOrWhiteSpace(bookAttribute.PageQuantity.ToString()) ||
+                string.IsNullOrWhiteSpace(bookAttribute.Image) ||
+                string.IsNullOrWhiteSpace(bookAttribute.Publisher) ||
+                string.IsNullOrWhiteSpace(bookAttribute.Language)
+                )
+            {
+                Response.StatusCode = 400;
+                return new ObjectResult(new {msg = "The attribute Must have more than one characters!"});
+            }
             Book book = new Book();
 
             book.Title = bookAttribute.Title;
