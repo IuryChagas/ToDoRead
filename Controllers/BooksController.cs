@@ -64,8 +64,9 @@ namespace ToDoRead.Controllers
             book.Price = bookAttribute.Price;
             book.PageQuantity = bookAttribute.PageQuantity;
             book.Image = bookAttribute.Image;
-
             book.Publisher = bookAttribute.Publisher;
+
+            if (!ModelState.IsValid){ }
             book.Language = bookAttribute.Language;
 
             database.Books.Add(book);
