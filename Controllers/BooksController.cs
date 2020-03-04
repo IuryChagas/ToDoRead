@@ -6,7 +6,7 @@ using System.Linq;
 
 namespace ToDoRead.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/v1/[controller]")]
     [ApiController] public class BooksController : ControllerBase
     {
         private readonly ApplicationDbContext database;
